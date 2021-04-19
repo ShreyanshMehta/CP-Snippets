@@ -1,0 +1,55 @@
+<snippet>
+	<content><![CDATA[
+stack<int>order;
+vector<bool>vis;
+vector<vi>adj, Radj; //Adjacency list and its reverse
+vector<vi>components; //Strongly connected components
+int sz = 0;
+
+void dfs1(int node){
+    vis[node] = 1;
+    for(auto it: adj[node]){
+        if(!vis[it]) dfs1(it);
+    }
+    order.push(node);
+}
+
+void dfs2(int node){
+    vis[node] = 0;
+    for(auto it: Radj[node]){
+        if(vis[it]) dfs2(it);
+    }
+    components[sz].push_back(node);
+}
+
+void init(int n){
+    adj.assign(n+1, vi({}));
+    Radj.assign(n+1, vi({}));
+    vis.assign(n+1, 0);
+}
+
+/*****************In main function******************/
+//inti(n)
+
+// fi(0, n){
+//     if(!vis[i]) dfs1(i);
+// }
+
+// while(!order.empty()){
+//     int node = order.top();
+//     order.pop();
+//     if(vis[node]) {
+//         components.push_back({});
+//         dfs2(node);
+//         sz++;
+//     }
+// }
+
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>Kosaraju</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

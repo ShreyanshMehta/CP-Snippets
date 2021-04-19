@@ -1,0 +1,50 @@
+<snippet>
+	<content><![CDATA[
+struct eulerGraph{
+    int n, m, odd = 0;
+    vector<set<int>>adj;
+    vi ans, in, out;
+
+    //n--Vertices   m--Edges
+    eulerGraph(int n, int m){
+        this->n = n;
+        this->m = m;
+        adj.assign(n, set<int>({}));
+        vis.assign(n, 0);
+    }
+
+    void addEdge(int u, int v){
+        adj[u].insert(v);
+        adj[v].insert(u);
+    }
+
+    void findPath(int u){
+        while(adj[u].size()){
+            int v = *adj[u].begin();
+            adj[u].erase(adj[u].begin());
+            adj[v].erase(adj[v].find(u));
+            findPath(v);
+        }
+        ans.push_back(u);
+    }
+
+    bool getAns(int start_node){
+        fi(0, n){
+            if(adj[i].size()%2) odd++;
+        }
+        findPath(start_node);
+        if(ans.size()!=m+1 or odd>2) return 0;
+        else return 1;
+    }
+};
+
+//In main function
+// eulerGraph G(n, m)
+// G.addEdges(u, v) to add edges
+// getAns to process answer in ans of G
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>EulerPath</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

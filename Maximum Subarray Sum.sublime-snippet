@@ -1,0 +1,18 @@
+<snippet>
+	<content><![CDATA[
+ll max_SubArray_Sum(vl a) {
+   int size=a.size(); 
+   ll max_so_far = a[0]; 
+   ll curr_max = a[0]; 
+   for(int i = 1; i < size; i++) { 
+      curr_max = max(a[i], curr_max+a[i]); 
+      max_so_far = max(max_so_far, curr_max); 
+   } 
+   return max_so_far; 
+} 
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>maxSubArraySum</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

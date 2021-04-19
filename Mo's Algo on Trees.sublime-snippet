@@ -1,0 +1,46 @@
+<snippet>
+	<content><![CDATA[
+
+int block_size;
+
+struct Query {
+    int L, R, id;
+    bool operator<(Query other) const{
+        return make_pair(L / block_size, R) < make_pair(other.L / block_size, other.R);
+    }
+};
+
+vector<int> mo_s_algorithm (vector<Query> &queries) {
+    vector<int> answers(queries.size());
+    sort(queries.begin(), queries.end());
+
+    int cur_l = 0;
+    int cur_r = -1;
+    for (Query q : queries) {
+        while (cur_l > q.L) {
+            cur_l--;
+            add(cur_l);
+        }
+        while (cur_r < q.R) {
+            cur_r++;
+            add(cur_r);
+        }
+        while (cur_l < q.L) {
+            remove(cur_l);
+            cur_l++;
+        }
+        while (cur_r > q.R) {
+            remove(cur_r);
+            cur_r--;
+        }
+        answers[q.id] = get_answer();
+    }
+
+    return answers;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>mot</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

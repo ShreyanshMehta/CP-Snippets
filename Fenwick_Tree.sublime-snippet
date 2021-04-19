@@ -1,0 +1,68 @@
+<snippet>
+	<content><![CDATA[
+/**********************Range Sum Queries*********************/
+struct FenwickTree {
+    vector<ll> bit;  // binary indexed tree
+    int n;
+
+    FenwickTree(int n) {
+        this->n = n;
+        bit.assign(n, 0);
+    }
+
+    FenwickTree(vector<ll> a) : FenwickTree(a.size()) {
+        for (size_t i = 0; i < a.size(); i++)
+            upd(i, a[i]);
+    }
+
+    ll sum(int r) {
+        ll ret = 0;
+        for (; r >= 0; r = (r & (r + 1)) - 1)
+            ret += bit[r];
+        return ret;
+    }
+
+    ll sum(int l, int r) {
+        return sum(r) - sum(l - 1);
+    }
+
+    void upd(int idx, int delta) {
+        for (; idx < n; idx = idx | (idx + 1))
+            bit[idx] += delta;
+    }
+};
+
+/***********************Range Minimum Queries***********************/
+struct FenwickTreeMin {
+    vector<ll> bit;
+    int n;
+    const ll INF = 1e18;
+
+    FenwickTreeMin(int n) {
+        this->n = n;
+        bit.assign(n, INF);
+    }
+
+    FenwickTreeMin(vector<ll> a) : FenwickTreeMin(a.size()) {
+        for (size_t i = 0; i < a.size(); i++)
+            update(i, a[i]);
+    }
+
+    ll getmin(int r) {
+        ll ret = INF;
+        for (; r >= 0; r = (r & (r + 1)) - 1)
+            ret = min(ret, bit[r]);
+        return ret;
+    }
+
+    void update(int idx, ll val) {
+        for (; idx < n; idx = idx | (idx + 1))
+            bit[idx] = min(bit[idx], val);
+    }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>fenwick</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

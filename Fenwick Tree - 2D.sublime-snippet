@@ -1,0 +1,49 @@
+<snippet>
+	<content><![CDATA[
+/***********Time Complexity**********/
+//Updation & Submatrix Sum - O(log(n)log(m))
+//Preprocessing -O( mnlog(n)log(m) )
+
+struct BIT2D{
+    int n, m;
+    vector<vector<ll>> bit;
+    
+    BIT2D(int n, int m){
+        this->n = n;
+        this->m = m;
+        bit.assign(n+5, vector<ll>(m+5));
+    }
+
+    BIT2D(vector<vector<ll>>mat): BIT2D(mat.size(), mat[0].size()){
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                add(i, j, mat[i][j]);
+            }
+        }
+    } 
+      
+    ll sum(int x, int y) {
+        ll ret = 0;
+        for (int i = x; i >= 0; i = (i & (i + 1)) - 1)
+            for (int j = y; j >= 0; j = (j & (j + 1)) - 1)
+                ret += bit[i][j];
+        return ret;
+    }
+
+    void add(int x, int y, int delta) {
+        for (int i = x; i < n; i = i | (i + 1))
+            for (int j = y; j < m; j = j | (j + 1))
+                bit[i][j] += delta;
+    }
+       
+    ll getAns(ll x1, ll y1, ll x2, ll y2) { 
+        ll ans = sum(x2, y2) - sum(x2, y1-1) - sum(x1-1, y2) + sum(x1-1, y1-1); 
+        return ans; 
+    } 
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>FenwickTree2D</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

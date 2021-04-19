@@ -1,0 +1,68 @@
+<snippet>
+	<content><![CDATA[
+
+// Time Complexity: O(1)
+//Space Complexity: NlogN
+// Precomputation: O(nlog(n))
+
+/***************************Range Sum******************************/
+const int N=3e5+10;;
+const int M=log(N)+10;
+int st[N][M];
+
+void precompute(vector<int>array,int n){
+  int k=log2(n);
+  for (int i = 0; i < n; i++)
+    st[i][0] = array[i];
+
+  for (int j = 1; j <= k; j++)
+      for (int i = 0; i + (1 << j) <= n; i++)
+          st[i][j] = st[i][j-1] + st[i + (1 << (j - 1))][j - 1];
+}
+
+int get(int n,int L,int R){
+  int K=log2(n);
+  long long sum = 0;
+  for (int j = K; j >= 0; j--) {
+      if ((1 << j) <= R - L + 1) {
+          sum += st[L][j];
+          L += 1 << j;
+      }
+  }
+  return sum;
+}
+/***************************Minimum Range Queries******************************/
+const int N=3e5+10;;
+const int M=log(N)+10;
+int st[N][M];
+int cal_log[N];
+
+void precompute(vector<int>array,int n){
+  cal_log[1] = 0;
+  for (int i = 2; i <= N; i++)
+      cal_log[i]=cal_log[i/2]+1;
+
+  int K=log2(n);
+  for (int i = 0; i < n; i++)
+    st[i][0] = array[i];
+
+  for (int j = 1; j <= K; j++)
+    for (int i = 0; i + (1 << j) <= N; i++)
+        st[i][j] = min(st[i][j-1], st[i + (1 << (j - 1))][j - 1]);
+}
+
+int get(int n,int L,int R){
+  int K=log2(n);
+  int j = cal_log[R - L + 1];
+  return min(st[L][j], st[R - (1 << j) + 1][j]);
+}
+
+//In main function
+//precompute(arr,arr.size());
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>sparse</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

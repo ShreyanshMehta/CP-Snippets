@@ -1,0 +1,37 @@
+<snippet>
+	<content><![CDATA[
+const int MOD = 1e9+7;
+
+long long power(long long x, long long y) { 
+    long long res = 1;
+    x = x % MOD;
+    while (y > 0) { 
+        if (y & 1) 
+            res = (res*x) % MOD; 
+        y = y>>1;
+        x = (x*x) % MOD; 
+    } 
+    return res; 
+}
+
+long long modInverse(ll x){
+  return power(x, MOD-2);
+}
+
+long long modAdd(long long a, long long b){
+  return (a%MOD + b%MOD + 2*MOD)%MOD;
+}
+
+long long modMult(long long a,long long b){
+  return (a%MOD * b%MOD) % MOD;
+}
+
+long long modDiv(long long a,long long b){
+  return (a%MOD * modInverse(b)) % MOD;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>modulo</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

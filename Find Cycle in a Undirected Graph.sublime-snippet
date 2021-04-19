@@ -1,0 +1,62 @@
+<snippet>
+	<content><![CDATA[
+
+vector<vi>adj;
+vi parent;
+vi color;
+int start_node, end_node;
+
+bool dfs(int node,int pre){
+    color[node] = 1;
+    bool r = 0;
+    for(auto it: adj[node]){
+        if(it==pre) continue;
+        if(color[it]==0){
+            parent[it] = node;
+            if(dfs(it, node)) {
+                r = 1;
+                break;
+            }
+        }
+        else if(color[it]==1){
+            start_node = it;
+            end_node = node;
+            r = 1;
+            break;
+        }
+    }
+    color[node] = 2;
+    return r;
+}
+
+void inti(int n){
+	start_node = -1, end_node = -1;
+	adj.assign(n+1, vi{});
+	parent.assign(n+1, -1);
+	color.assign(n+1, 0);
+}
+
+vi getCycle(int n){
+	vi ans;
+	fi(1, n+1){
+        if(color[i]==0 and dfs(i, 0) and start_node!=-1){
+            ans.push_back(start_node);
+            for(int v = end_node; v != start_node; v = parent[v] ){
+                ans.push_back(v);
+            }
+            ans.push_back(start_node);
+            return ans;
+        }
+    }	
+    return ans;
+}
+
+//In main function
+//init(n);
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>cycles</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

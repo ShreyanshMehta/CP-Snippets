@@ -1,0 +1,105 @@
+<snippet>
+	<content><![CDATA[
+/*-------------------------Fenwick Tree-------------------------------*/
+vl BITree1(MAXN),BITree2(MAXN);
+
+ll getSum(int index,vl &BITree) {
+    ll sum = 0;
+    index = index + 1; 
+    while (index>0) { 
+        sum += BITree[index]; 
+        index -= index & (-index); 
+    } 
+    return sum; 
+} 
+
+void updateBIT(int index, ll val, vl &BITree,int n) { 
+    index = index + 1; 
+    while(index<n){
+      BITree[index] += val; 
+      index += index & (-index); 
+    } 
+} 
+  
+void constructBITree(vector<int>arr,vl &BITree,int n) { 
+    for (int i=0; i<n; i++) 
+        updateBIT(arr[i],t[i],BITree,n);
+} 
+
+ll rangeSum(int l, int r,vl &BITree){
+   return getSum(r,BITree)-getSum(l-1,BITree);
+}
+/*-------------------------Fenwick Tree------------------------------*/
+
+int dfs(int v, vector<vi>const& adj,vi &parent,vi &depth, vi &heavy, vi &head, vi &pos,int &cur) {
+    int size = 1;
+    int max_c_size = 0;
+    for (int c : adj[v]) {
+        if (c != parent[v]) {
+            parent[c] = v, depth[c] = depth[v] + 1;
+            int c_size = dfs(c, adj,parent,depth,heavy,head,pos,cur);
+            size += c_size;
+            if (c_size > max_c_size)
+                max_c_size = c_size, heavy[v] = c;
+        }
+    }
+    return size;
+}
+
+void decompose(int v,int h,vector<vi>const& adj,vi &parent,vi &depth, vi &heavy, vi &head, vi &pos,int &cur_pos) {
+    head[v] = h, pos[v] = cur_pos++;
+    if (heavy[v] != -1)
+        decompose(heavy[v],h,adj,parent,depth,heavy,head,pos,cur_pos);
+    for (int c : adj[v]) {
+        if (c != parent[v] && c != heavy[v])
+            decompose(c, c, adj,parent,depth,heavy,head,pos,cur_pos);
+    }
+}
+
+void init1(vector<vi>const& adj,vi &parent,vi &depth, vi &heavy, vi &head, vi &pos, int &cur_pos) {
+    int n = adj.size();
+    parent = vector<int>(n);
+    depth = vector<int>(n);
+    heavy = vector<int>(n, -1);
+    head = vector<int>(n);
+    pos = vector<int>(n);
+    cur_pos = 0;
+    //Index-0 is root node
+    dfs(0,adj,parent,depth,heavy,head,pos,cur_pos);
+    decompose(0,0,adj,parent,depth,heavy,head,pos,cur_pos);
+}
+
+//For finding distance between two nodes
+ll query(int a, int b,vl &BITree,vi &parent,vi &depth, vi &heavy, vi &head, vi &pos, int &cur_pos) {
+    ll ans = 0;
+    int curr;
+    int to;
+    if(depth[a]>depth[b]){
+      curr=a; to=b;
+    }
+    else{
+      curr=b; to=a;
+    }
+    while(head[curr]!=head[to]){
+      ans+=rangeSum(pos[head[curr]],pos[curr],BITree);
+      curr=parent[head[curr]];
+      if(depth[curr]<depth[to]){
+      	swap(curr,to);
+      }
+    }
+    ans+=rangeSum(pos[to],pos[curr],BITree);
+    return ans;
+}
+
+//In main function
+vector<vi> adj(n+2);
+vi parent,depth,heavy,head,pos;
+int cur_pos;
+init2(adj,parent,depth,heavy,head,pos,cur_pos);
+constructBITree(pos,BITree,n+2);
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>Heavy Light Decomposition</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,0 +1,12 @@
+<snippet>
+	<content><![CDATA[
+double pi = 3.141592653589793238; 
+double ConvertintoRadian(double deg){ 
+    return((deg * pi)/180); 
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>ConvertintoRadian</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,0 +1,83 @@
+<snippet>
+	<content><![CDATA[
+struct SegTree{
+  int n;
+  vector<ll>tree, tree1;
+
+  SegTree(int n) {
+      this->n = n;
+      tree.assign(4*n, -1e18);
+      tree1.assign(4*n, 1e18);
+  }
+
+  SegTree(vector<ll> a) : SegTree(a.size()) {
+      buildSeg(a,0,n-1,0);
+  }
+
+  int getMid(int s, int e) { return s + (e - s)/2; }
+  void buildSeg(vector<ll> &arr,int start,int end,int treeNode){
+    if(start==end){
+      tree[treeNode]=arr[start];
+      tree1[treeNode]=arr[start];
+      return;
+    }
+    int mid=(start+end)/2;
+    buildSeg(arr, start, mid, 2*treeNode+1);
+    buildSeg(arr, mid+1, end, 2*treeNode+2);
+
+    tree[treeNode] = max(tree[2*treeNode+1],tree[2*treeNode+2]);
+    tree1[treeNode] = min(tree1[2*treeNode+1],tree1[2*treeNode+2]);
+  }
+
+  void updateValue(vl &arr, int ss, int se, int index, int value, int node) { 
+    if (index < ss || index > se) return; 
+    if (ss == se) { 
+        arr[index] = value; 
+        tree[node] = value; 
+        tree1[node] = value;
+    } 
+    else { 
+        int mid = getMid(ss,se); 
+        if(index>=ss && index<=mid) 
+            updateValue(arr, ss, mid, index,value, 2*node+1); 
+        else
+            updateValue(arr, mid+1, se, index, value, 2*node+2); 
+
+        tree[node] = max(tree[2*node+1], tree[2*node+2]); 
+        tree1[node] = min(tree1[2*node+1], tree1[2*node+2]);
+    } 
+    return; 
+  }
+
+  void update(vl &arr, int index, int new_value){
+    updateValue(arr, 0, n-1, index, new_value, 0);
+  } 
+
+  ll findMaxUtil(int ss, int se, int qs, int qe, int si)  {
+      if (qs <= ss && qe >= se)  return tree[si];  
+      if (se < qs || ss > qe)  return -1e18;  
+      int mid = getMid(ss, se);  
+      return max(findMaxUtil(ss, mid, qs, qe, 2*si+1),findMaxUtil(mid+1, se, qs, qe, 2*si+2));  
+  }  
+   
+  ll getMx(int qs, int qe)  {
+    return findMaxUtil(0, n-1, qs, qe, 0);  
+  } 
+
+  ll findMinUtil(int ss, int se, int qs, int qe, int si)  {
+      if (qs <= ss && qe >= se)  return tree1[si];  
+      if (se < qs || ss > qe)  return 1e18;  
+      int mid = getMid(ss, se);  
+      return min(findMinUtil(ss, mid, qs, qe, 2*si+1), findMinUtil(mid+1, se, qs, qe, 2*si+2));  
+  }  
+   
+  ll getMi(int qs, int qe)  {
+    return findMinUtil(0, n-1, qs, qe, 0);  
+  } 
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>segtree_RangeMax</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

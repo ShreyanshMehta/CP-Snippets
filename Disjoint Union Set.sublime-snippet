@@ -1,0 +1,45 @@
+<snippet>
+	<content><![CDATA[
+struct DSU{
+
+    vector<int> parent, siz;
+    int components;
+
+    DSU(int n){
+        for(int i=0;i<n;++i){
+            parent.push_back(i);
+            siz.push_back(1);
+        }
+        components = n;
+    }
+
+    int find_set(int v) {
+        if (v == parent[v])
+            return v;
+        return parent[v] = find_set(parent[v]);
+    }
+
+    int getSiz(int node){
+        return siz[find_set(node)];
+    }
+
+    bool union_sets(int a, int b) {
+        a = find_set(a);
+        b = find_set(b);
+
+        if(a==b) return false;
+
+        if(siz[a] > siz[b]) swap(a, b);
+        parent[a] = b;
+        siz[b] += siz[a]; 
+
+        components--;
+        return true;
+    }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>DSU</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
