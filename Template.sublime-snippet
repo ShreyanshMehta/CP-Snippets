@@ -21,10 +21,14 @@ typedef   vector<long long> vl;
 typedef   pair<int,int> pii;
 typedef   pair<ll,ll> pll;
 typedef   vector< pair<ll,ll> > vll;
+
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+//auto dist = uniform_int_distribution<int>(l,r);
 //int dx[]={1,0,-1,0};
 //int dy[]={0,1,0,-1};
 //int dx[]={-1,0,1,1,1,0,-1,-1};
 //int dy[]={-1,-1,-1,0,1,1,1,0};
+
 
 void nikal_pehli_fursat_mai(){
     
