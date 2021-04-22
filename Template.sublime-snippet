@@ -30,7 +30,7 @@ mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 //int dy[]={-1,-1,-1,0,1,1,1,0};
 
 
-void nikal_pehli_fursat_mai(){
+void nikal_pehli_fursat_mai(int tc){
     
 }
 
@@ -39,8 +39,8 @@ int main(){
     cin.tie(0);
     int tc=1; 
     cin>>tc;
-    while(tc--){
-    nikal_pehli_fursat_mai();
+    fi(1, tc+1){
+        nikal_pehli_fursat_mai(tc);
     }
 }
 
