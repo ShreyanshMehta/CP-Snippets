@@ -5,13 +5,18 @@
 	],
 	"installed_packages":
 	[
+		"10% Too Dull for My Tastes Color Scheme",
 		"1337 Color Scheme",
+		"C++ Completions",
 		"Color Scheme - Gray Matter",
 		"Color Scheme - Sleeplessmind",
 		"CppFastOlympicCoding",
+		"Easy CP",
+		"EasyClangComplete",
 		"Future Funk - Color Scheme",
 		"Package Control",
 		"RainbowDrops Inspired - Color Scheme",
-		"Status Bar File Size"
+		"Status Bar File Size",
+		"SublimeAStyleFormatter"
 	]
 }
