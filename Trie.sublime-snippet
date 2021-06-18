@@ -24,6 +24,15 @@ struct Trie {
 		}
 	}
 
+	void del(ll x) {
+		int curr = 0;
+		for (int i = 31; i >= 0; i--) {
+			ll bit = (x >> i) & 1LL;
+			cnt[curr][bit]--;
+			curr = trie[curr][bit];
+		}
+	}
+
 };
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
