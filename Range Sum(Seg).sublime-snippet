@@ -1,57 +1,50 @@
 <snippet>
 	<content><![CDATA[
-struct SegTree{
-  int n;
-  vector<ll>tree;
+struct SegTree {
+    int n;
+    vector<ll>tree;
 
-  SegTree(int n) {
-      this->n = n;
-      tree.assign(4*n, 0);
-  }
-
-  SegTree(vector<ll> a) : SegTree(a.size()) {
-      buildSeg(a,0,n-1,0);
-  }
-
-  int getMid(int s, int e) { return s + (e - s)/2; }
-  void buildSeg(vector<ll> &arr,int start,int end,int treeNode){
-    if(start==end){
-      tree[treeNode]=arr[start];
-      return;
+    SegTree(int n) {
+        this->n = n;
+        tree.assign(4 * n, 0);
     }
-    int mid=(start+end)/2;
-    buildSeg(arr, start, mid, 2*treeNode+1);
-    buildSeg(arr, mid+1, end, 2*treeNode+2);
 
-    tree[treeNode]=tree[2*treeNode+1]+tree[2*treeNode+2];
-  }
+    SegTree(vector<ll> a) : SegTree(a.size()) {
+        for (int i = 0; i < a.size(); i++)
+            update(a, i, a[i]);
+    }
 
-  void updateValueUtil(int ss, int se, int i, ll diff, int si)  {
-      if (i < ss || i > se)  return;  
-      tree[si] = tree[si] + diff;  
-      if (se != ss)  {  
-          int mid = getMid(ss, se);  
-          updateValueUtil(ss, mid, i, diff, 2*si + 1);  
-          updateValueUtil(mid+1, se, i, diff, 2*si + 2);  
-      }  
-  } 
+    int getMid(int s, int e) { return s + (e - s) / 2; }
 
-  void update(vector<ll> &arr,int i,ll new_val)  {  
-      ll diff = new_val - arr[i];  
-      arr[i] = new_val;  
-      updateValueUtil(0, n-1, i, diff, 0);  
-  }
+    void updateValueUtil(int ss, int se, int i, ll new_val, int si)  {
+        if (i < ss or i > se)  return;
+        if (ss > se) return;
+        if (se == ss) {
+            tree[si] = new_val;
+        }
+        else {
+            int mid = getMid(ss, se);
+            updateValueUtil(ss, mid, i, new_val, 2 * si + 1);
+            updateValueUtil(mid + 1, se, i, new_val, 2 * si + 2);
+            tree[si] = tree[2 * si + 1] + tree[2 * si + 2];
+        }
+    }
 
-  ll findSumUtil(int ss, int se, int qs, int qe, int si)  {
-      if (qs <= ss && qe >= se)  return tree[si];  
-      if (se < qs || ss > qe)  return 0;  
-      int mid = getMid(ss, se);  
-      return findSumUtil(ss, mid, qs, qe, 2*si+1) +  findSumUtil(mid+1, se, qs, qe, 2*si+2);  
-  }  
-   
-  ll get(int qs, int qe)  {
-      return findSumUtil(0, n-1, qs, qe, 0);  
-  } 
+    void update(vector<ll> &arr, int i, ll new_val)  {
+        arr[i] = new_val;
+        updateValueUtil(0, n - 1, i, new_val, 0);
+    }
+
+    ll findSumUtil(int ss, int se, int qs, int qe, int si)  {
+        if (qs <= ss and qe >= se)  return tree[si];
+        if (se < qs or ss > qe)  return 0;
+        int mid = getMid(ss, se);
+        return findSumUtil(ss, mid, qs, qe, 2 * si + 1) +  findSumUtil(mid + 1, se, qs, qe, 2 * si + 2);
+    }
+
+    ll get(int qs, int qe)  {
+        return findSumUtil(0, n - 1, qs, qe, 0);
+    }
 };
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->

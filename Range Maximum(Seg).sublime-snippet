@@ -11,23 +11,12 @@ struct SegTree{
   }
 
   SegTree(vector<ll> a) : SegTree(a.size()) {
-      buildSeg(a,0,n-1,0);
+      for(int i=0; i<a.size(); i++){
+        update(a, i, a[i]);
+      }
   }
 
   int getMid(int s, int e) { return s + (e - s)/2; }
-  void buildSeg(vector<ll> &arr,int start,int end,int treeNode){
-    if(start==end){
-      tree[treeNode]=arr[start];
-      tree1[treeNode]=arr[start];
-      return;
-    }
-    int mid=(start+end)/2;
-    buildSeg(arr, start, mid, 2*treeNode+1);
-    buildSeg(arr, mid+1, end, 2*treeNode+2);
-
-    tree[treeNode] = max(tree[2*treeNode+1],tree[2*treeNode+2]);
-    tree1[treeNode] = min(tree1[2*treeNode+1],tree1[2*treeNode+2]);
-  }
 
   void updateValue(vl &arr, int ss, int se, int index, int value, int node) { 
     if (index < ss || index > se) return; 
@@ -77,7 +66,7 @@ struct SegTree{
 };
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>segtree_RangeMax</tabTrigger>
+	<tabTrigger>segtree_range_max</tabTrigger>
 	<!-- Optional: Set a scope to limit where the snippet will trigger -->
 	<!-- <scope>source.python</scope> -->
 </snippet>
