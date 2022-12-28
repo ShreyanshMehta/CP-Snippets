@@ -1,0 +1,35 @@
+<snippet>
+	<content><![CDATA[
+vector<ll> create(vector<ll>a){
+    int maxn = a.size();
+    vector<ll>C(maxn,0);
+    for(int i=1; i<maxn; i++){
+        for(int j=i; j<maxn; j+=i){
+            C[i] += a[j];
+        }
+    }
+    return C;
+}
+vector<ll> reduce(vector<ll>a){
+    int maxn = a.size();
+    vector<ll>c(maxn,0);
+    for(int i=maxn; i>0; i--){
+        for(int j=2*i; j<maxn; j+=i){
+            a[i] -= a[j];
+        }
+    }
+    return a;
+}
+vector<ll> gcd_convolution(vector<ll>a,vector<ll>b){
+    int maxn = a.size();
+    vector<ll>A = create(a);
+    vector<ll>B = create(b);
+    vector<ll>C(maxn,0);
+    for(int i=1; i<maxn; i++){
+        C[i] = A[i]*B[i];
+    }
+    return reduce(C);
+}
+]]></content>
+	<tabTrigger>gcdConvo</tabTrigger> -->
+</snippet>
